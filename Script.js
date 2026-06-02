@@ -28,23 +28,13 @@ const slider =
 const lengthValue =
     document.getElementById("lengthValue");
 
-const attackChip1 =
-    document.getElementById("attackCard1");
+const attackValue = {
+    brute: { name: 'Brute Force', speed: '1,000,000,000 attempts/sec', ratePerSec: 1_000_000_000 },
+    dict: { name: 'Dictionary Attack', speed: '100,000,000 attempts/sec', ratePerSec: 100_000_000 },
+    cred: { name: 'Credential Stuffing', speed: '10,000,000 attempts/sec', ratePerSec: 10_000_000 }
+};
 
-const attackChip2 =
-    document.getElementById("attackCard2");
-
-const attackChip3 =
-    document.getElementById("attackCard3");
-
-const attackCard1 =
-    document.getElementById("attackCard1");
-
-const attackCard2 =
-    document.getElementById("attackCard2");
-
-const attackCard3 =
-    document.getElementById("attackCard3");
+let selectedAttack = 'brute';
 
 slider.addEventListener("input", () => {
 
@@ -179,23 +169,24 @@ toggleBreach.addEventListener('click', () => {
     breachText.removeAttribute('hidden');
     // breachText.classList.toggle('hidden');
 });
+function showAttack(type, clicked) {
+    selectedAttack = type;
 
-attackChip1.addEventListener('click', () => {
-    attackCard2.removeAttribute('hidden');
-    attackCard3.removeAttribute('hidden');
-    attackCard1.classList.toggle('hidden');
-});
+    document.querySelectorAll('.option-box').forEach(box => box.classList.remove('selected'));
+    clicked.classList.add('selected');
 
-attackChip2.addEventListener('click', () => {
-    attackCard1.removeAttribute('hidden');
-    attackCard3.removeAttribute('hidden');
-    attackCard2.classList.toggle('hidden');
-});
+    document.querySelectorAll('.attack-detail').forEach(card => card.style.display = 'none');
+    const cardMap = { brute: 'attackCard1', dict: 'attackCard2', cred: 'attackCard3' };
+    document.getElementById(cardMap[type]).style.display = 'block';
 
-attackChip3.addEventListener('click', () => {
-    attackCard2.removeAttribute('hidden');
-    attackCard1.removeAttribute('hidden');
-    attackCard3.classList.toggle('hidden');
+    document.getElementById('attackResult').style.display = 'none';
+}
+
+
+
+window.addEventListener('load', () => {
+    const firstCard = document.querySelector('.option-box');
+    showAttack('brute', firstCard);
 });
 
 function showTab(tabId) {
