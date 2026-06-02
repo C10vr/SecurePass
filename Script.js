@@ -1,4 +1,4 @@
-﻿const passwordInput =
+const passwordInput =
     document.getElementById("password");
 
 const strengthBar =
@@ -16,6 +16,9 @@ const themeToggle =
 const toggleBreach =
     document.getElementById("toggleBreach");
 
+const toggleAttack =
+    document.getElementById("toggleAttack");
+
 const breachText =
     document.getElementById("breachText");
 
@@ -24,6 +27,24 @@ const slider =
 
 const lengthValue =
     document.getElementById("lengthValue");
+
+const attackChip1 =
+    document.getElementById("attackCard1");
+
+const attackChip2 =
+    document.getElementById("attackCard2");
+
+const attackChip3 =
+    document.getElementById("attackCard3");
+
+const attackCard1 =
+    document.getElementById("attackCard1");
+
+const attackCard2 =
+    document.getElementById("attackCard2");
+
+const attackCard3 =
+    document.getElementById("attackCard3");
 
 slider.addEventListener("input", () => {
 
@@ -74,11 +95,6 @@ function generatePassword() { // for generate panel
         .getElementById("generatedPassword")
         .value = password;
 }
-
-toggleBreach.addEventListener('click', () => {
-    breachText.removeAttribute('hidden');
-    // breachText.classList.toggle('hidden');
-});
 
 themeToggle.addEventListener("click", () => { //changing background theme color and icon
 
@@ -159,7 +175,28 @@ togglePassword.addEventListener("click", function (){  //this function is to swi
     }
 });
 
+toggleBreach.addEventListener('click', () => {
+    breachText.removeAttribute('hidden');
+    // breachText.classList.toggle('hidden');
+});
 
+attackChip1.addEventListener('click', () => {
+    attackCard2.removeAttribute('hidden');
+    attackCard3.removeAttribute('hidden');
+    attackCard1.classList.toggle('hidden');
+});
+
+attackChip2.addEventListener('click', () => {
+    attackCard1.removeAttribute('hidden');
+    attackCard3.removeAttribute('hidden');
+    attackCard2.classList.toggle('hidden');
+});
+
+attackChip3.addEventListener('click', () => {
+    attackCard2.removeAttribute('hidden');
+    attackCard1.removeAttribute('hidden');
+    attackCard3.classList.toggle('hidden');
+});
 
 function showTab(tabId) {
 
