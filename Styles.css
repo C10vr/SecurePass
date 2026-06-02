@@ -341,9 +341,20 @@ input[type="range"] {
         transition: border-color .2s;
     }
 
+    .option-box input[type="radio"] {
+        display: none;
+    }
+
+    .option-box:has(input:checked) {
+        border: 2px solid #00bcff; 
+        background-color: rgba(0, 188, 255, 0.1);
+    }
+
+
 .attack-btn {
     width: 100%;
     padding: 18px;
+    margin-top: 25px;
     border: none;
     border-radius: 18px;
     background: linear-gradient( 90deg, #2563eb, #06b6d4 );
