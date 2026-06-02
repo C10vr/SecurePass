@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang ="en">
 <head>
     <meta charset="UTF-8">
@@ -177,43 +177,44 @@
         <div class="generator-card">
               <div class="options-grid">
                     <label class="option-box">
-                        <input type="radio" id="chip1" name="category" value="brute" checked>
+                        <input type="radio" id="attackChip1" name="category" value="brute">
                         <h3>Brute Force</h3>
                         <p>1B attempts/sec</p>
                     </label>
                     <label class="option-box">
-                        <input type="radio" id="chip2" name="category" value="dict"> 
+                        <input type="radio" id="attackChip2" name="category" value="dict"> 
                         <h3>Dictionary</h3>
                         <p>100M attempts/sec</p>
                     </label>
                     <label class="option-box">
-                        <input type="radio" id="chip3" name="category" value="cred">
+                        <input type="radio" id="attackChip3" name="category" value="cred">
                         <h3>Credential Stuffing</h3>
                         <p>10M attempts/sec</p>
                     </label>
             </div>
         </div>
-        <div class="generator-card" id="card1" hidden>
-        <label>Enter a password in the <b>Analyze</b> tab first, then simulate common attack methods here.</label>
+        <div class="generator-card" id="attackCard1" hidden>
+        <label>Tries every possible character combination</label>
             <div class="generated-box">
-                <i class="fa-solid fa-shield"></i>
-                <h4 id="log">This is for educational purposes only. No actual attacks are performed</h4>
+                <i class="fa-solid fa-bolt"></i>
+                <h4>Attack speed: <b>1B attempts/sec</b></h4>
             </div>
         </div>
-        <div class="generator-card" id="card2" hidden>
-            <label>Enter a password in the <b>Analyze</b> tab first, then simulate common attack methods here.</label>
+        <div class="generator-card" id="attackCard2" hidden>
+            <label>Uses common words and known patterns</label>
             <div class="generated-box">
-                <i class="fa-solid fa-shield"></i>
-                <h4 id="log">This is for educational purposes only. No actual attacks are performed</h4>
+                <i class="fa-solid fa-database"></i>
+                <h4>Attack speed: <b>100M attempts/sec</b></h4>
             </div>
         </div>
-        <div class="generator-card"id="card3" hidden>
-            <label>Enter a password in the <b>Analyze</b> tab first, then simulate common attack methods here.</label>
+        <div class="generator-card"id="attackCard3" hidden>
+            <label>Tests leaked username/password pairs</label>
             <div class="generated-box">
-                <i class="fa-solid fa-shield"></i>
-                <h4 id="log">This is for educational purposes only. No actual attacks are performed</h4>
+                <i class="fa-solid fa-activity"></i>
+                <h4>Attack speed: <b>10M attempts/sec</b></h4>
             </div>
         </div>
+        <button type="button" class="breach-btn" id="toggleAttack"> <i class="fa-solid fa-play"></i> Start Attack Simulation </button>
     </div>
 </div>
 </section>
