@@ -182,13 +182,54 @@ function showAttack(type, clicked) {
     document.getElementById('attackResult').style.display = 'none';
 }
 
+function estimateCrackTime(password, ratePerSec) {
+    let charset = 0;
+    if (/[a-z]/.test(password)) charset += 26;
+    if (/[A-Z]/.test(password)) charset += 26;
+    if (/[0-9]/.test(password)) charset += 10;
+    if (/[^A-Za-z0-9]/.test(password)) charset += 32;
+    if (!charset) return { label: 'Instantly', risk: 'Critical', riskClass: 'risk-high' };
 
+    const seconds = Math.pow(charset, password.length) / ratePerSec;
+
+    if (seconds < 1) return { label: 'Instantly', risk: 'Critical', riskClass: 'risk-high' };
+    if (seconds < 60) return { label: Math.round(seconds) + ' seconds', risk: 'Critical', riskClass: 'risk-high' };
+    if (seconds < 3600) return { label: Math.round(seconds / 60) + ' minutes', risk: 'High', riskClass: 'risk-high' };
+    if (seconds < 86400) return { label: Math.round(seconds / 3600) + ' hours', risk: 'High', riskClass: 'risk-high' };
+    if (seconds < 2592000) return { label: Math.round(seconds / 86400) + ' days', risk: 'Medium', riskClass: 'risk-medium' };
+    if (seconds < 31536000) return { label: Math.round(seconds / 2592000) + ' months', risk: 'Medium', riskClass: 'risk-medium' };
+    if (seconds < 3.15e9) return { label: Math.round(seconds / 31536000) + ' years', risk: 'Low', riskClass: 'risk-low' };
+    return { label: 'Centuries+', risk: 'Very Low', riskClass: 'risk-low' };
+}
+
+function runAttackSim() {
+    const password = passwordInput.value;
+
+    if (!password) {
+        alert('Enter a password in the Analyze tab first.');
+        return;
+    }
+
+    const attack = attackValue[selectedAttack];
+    const crackTime = estimateCrackTime(password, attack.ratePerSec);
+
+    document.getElementById('resType').textContent = attack.name;
+    document.getElementById('resSpeed').textContent = attack.speed;
+    document.getElementById('resCrackTime').textContent = crackTime.label;
+
+    const riskEl = document.getElementById('resRisk');
+    riskEl.textContent = crackTime.risk;
+    riskEl.className = 'attack-stat-value ' + crackTime.riskClass;
+
+    document.getElementById('attackResult').style.display = 'block';
+}
 
 window.addEventListener('load', () => {
     const firstCard = document.querySelector('.option-box');
     showAttack('brute', firstCard);
 });
 
+toggleAttack.addEventListener("click", runAttackSim);
 function showTab(tabId) {
 
     const pages =
