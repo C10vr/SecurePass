@@ -227,7 +227,7 @@ h3 {
 
     .text-container h3 {
         color: #10b981;
-        margin 0 0 4px 0;
+        margin: 0 0 4px 0;
     }
 
     .text-container p {
@@ -350,6 +350,11 @@ input[type="range"] {
         background-color: rgba(0, 188, 255, 0.1);
     }
 
+    .selected {
+        border: 2px solid #3b82f6 !important;
+        box-shadow: 0 0 15px rgba(59,130,246,.4);
+        background: rgba(59,130,246,.08);
+    }
 
 .attack-btn {
     width: 100%;
@@ -361,8 +366,47 @@ input[type="range"] {
     color: white;
     font-size: 16px;
     cursor: pointer;
+    transition: 0.9s;
 }
 
     .attack-btn:hover {
         opacity: .9;
+    }
+
+.attack-result-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: #3b82f6;
+}
+
+.attack-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+    .attack-span-label {
+        color: #94a3b8;
+        font-size: 14px;
+    }
+
+    .attack-span-value {
+        color: white;
+        font-weight: 600;
+    }
+
+    .risk-high {
+        color: #ef4444 !important;
+    }
+
+    .risk-medium {
+        color: #f59e0b !important;
+    }
+
+    .risk-low {
+        color: #10b981 !important;
     }
