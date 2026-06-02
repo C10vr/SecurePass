@@ -222,30 +222,36 @@
         </button>
 
         <div class="generated-card" id="attackResult" style="display:none">
-            <div class="attack-result-header">
-                <i class="fa-solid fa-terminal"></i>
-                <label><b>Simulation Results</b></label>
-            </div>
-            
-            <div class="attack-stat">
-                <span class="attack-span-label">Attack Type</span>
-                <span class="attack-span-value" id="resType">-</span>
-            </div>
-            <div class="attack-stat">
-                <span class="attack-span-label">Speed</span>
-                <span class="attack-span-value" id="resType">-</span>
-            </div>
-            <div class="attack-stat">
-                <span class="attack-span-label">Estimated Crack Time</span>
-                <span class="attack-span-value" id="resType">-</span>
-            </div>
-            <div class="attack-stat">
-                <span class="attack-span-label">Risk Level</span>
-                <span class="attack-span-value" id="resType">-</span>
+            <div class="generated-box">
+                <div class="generated-box">
+                    <div class="attack-result-header">
+                        <i class="fa-solid fa-terminal"></i>
+                        <label><b>Simulation Results</b></label>
+                    </div>
+
+                    <div class="attack-stat">
+                         <span class="attack-span-label">Attack Type</span>
+                         <span class="attack-span-value" id="resType">-</span>
+                    </div>
+
+                    <div class="attack-stat">
+                         <span class="attack-span-label">Speed</span>
+                         <span class="attack-span-value" id="resSpeed">-</span>
+                    </div>
+
+                    <div class="attack-stat">
+                        <span class="attack-span-label">Estimated Crack Time</span>
+                        <span class="attack-span-value" id="resCrackTime">-</span>
+                    </div>
+
+                    <div class="attack-stat">
+                        <span class="attack-span-label">Risk Level</span>
+                        <span class="attack-span-value" id="resRisk">-</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </section>
 
 
