@@ -174,47 +174,76 @@
                 <h4 id="log">This is for educational purposes only. No actual attacks are performed</h4>
             </div>
         </div>
+
         <div class="generator-card">
               <div class="options-grid">
-                    <label class="option-box">
-                        <input type="radio" id="attackChip1" name="category" value="brute">
+                    <label class="option-box" onclick="showAttack('brute', this)">
+                        <input type="radio" id="attackChip1" name="category" value="brute" checked>
                         <h3>Brute Force</h3>
                         <p>1B attempts/sec</p>
                     </label>
-                    <label class="option-box">
+                    <label class="option-box" onclick="showAttack('dict', this)">
                         <input type="radio" id="attackChip2" name="category" value="dict"> 
                         <h3>Dictionary</h3>
                         <p>100M attempts/sec</p>
                     </label>
-                    <label class="option-box">
+                    <label class="option-box" onclick="showAttack('cred', this)">
                         <input type="radio" id="attackChip3" name="category" value="cred">
                         <h3>Credential Stuffing</h3>
                         <p>10M attempts/sec</p>
                     </label>
             </div>
         </div>
-        <div class="generator-card" id="attackCard1" hidden>
-        <label>Tries every possible character combination</label>
+
+        <div class="generator-card attack-detail" id="attackCard1" style="display:none">
+            <label>Tries every possible character combination</label>
             <div class="generated-box">
                 <i class="fa-solid fa-bolt"></i>
                 <h4>Attack speed: <b>1B attempts/sec</b></h4>
             </div>
         </div>
-        <div class="generator-card" id="attackCard2" hidden>
+        <div class="generator-card attack-detail" id="attackCard2" style="display:none">
             <label>Uses common words and known patterns</label>
             <div class="generated-box">
                 <i class="fa-solid fa-database"></i>
                 <h4>Attack speed: <b>100M attempts/sec</b></h4>
             </div>
         </div>
-        <div class="generator-card"id="attackCard3" hidden>
+        <div class="generator-card attack-detail" id="attackCard3" style="display:none">
             <label>Tests leaked username/password pairs</label>
             <div class="generated-box">
                 <i class="fa-solid fa-activity"></i>
                 <h4>Attack speed: <b>10M attempts/sec</b></h4>
             </div>
         </div>
-        <button type="button" class="breach-btn" id="toggleAttack"> <i class="fa-solid fa-play"></i> Start Attack Simulation </button>
+
+        <button type="button" class="attack-btn" id="toggleAttack"> 
+            <i class="fa-solid fa-play"></i> Start Attack Simulation 
+        </button>
+
+        <div class="generated-card" id="attackResult" style="display:none">
+            <div class="attack-result-header">
+                <i class="fa-solid fa-terminal"></i>
+                <label><b>Simulation Results</b></label>
+            </div>
+            
+            <div class="attack-stat">
+                <span class="attack-span-label">Attack Type</span>
+                <span class="attack-span-value" id="resType">-</span>
+            </div>
+            <div class="attack-stat">
+                <span class="attack-span-label">Speed</span>
+                <span class="attack-span-value" id="resType">-</span>
+            </div>
+            <div class="attack-stat">
+                <span class="attack-span-label">Estimated Crack Time</span>
+                <span class="attack-span-value" id="resType">-</span>
+            </div>
+            <div class="attack-stat">
+                <span class="attack-span-label">Risk Level</span>
+                <span class="attack-span-value" id="resType">-</span>
+            </div>
+        </div>
     </div>
 </div>
 </section>
