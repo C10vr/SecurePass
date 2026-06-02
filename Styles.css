@@ -1,4 +1,4 @@
-﻿:root {    /* For changing the website background - dark and light mode (Still have issue with icon and color gradient)*/
+:root {    /* For changing the website background - dark and light mode (Still have issue with icon and color gradient)*/
     --bg-main: #03071d;
     --bg-secondary: #0e1633;
     --card-bg: rgba(255,255,255,.03);
@@ -339,4 +339,19 @@ input[type="range"] {
         align-items: flex-start;
         gap: 16px;
         transition: border-color .2s;
+    }
+
+.attack-btn {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 18px;
+    background: linear-gradient( 90deg, #2563eb, #06b6d4 );
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    .attack-btn:hover {
+        opacity: .9;
     }
