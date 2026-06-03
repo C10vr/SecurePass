@@ -147,19 +147,27 @@
         </div>
 
     <!-- Log panel -->
-    <div id="logPage" class="tab-page" style="display:none">        
-        <div class="content">
-            <h2>Threat Logs</h2>
+        <div id="logPage" class="tab-page" style="display:none">        
+            <div class="content">
+                <h2>Threat Logs</h2>
 
-            <!-- to view threat logs -->
-            <div class="generator-card">
-                <div class="generated-box">
-                    <label id="logLabel"><b>Log 1.0</b></label>
-                    There are no current breaches...
+                <div class="log-toolbar">
+                    <span id="logCount">0 simulations logged</span>
+                    <button id="clearLogs" onclick="clearLogs()">
+                        <i class="fa-solid fa-trash"></i> Clear Logs
+                    </button>
                 </div>
+
+                <div id="logList">
+                    <div class="log-empty" id="logEmpty">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <p>No simulations run yet.</p>
+                        <p>Run an attack simulation to see logs here.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
 
     <!--Attack Sim panel -->
     <div id="attackPage" class="tab-page" style="display:none">        
@@ -222,8 +230,7 @@
         </button>
 
         <div class="generated-card" id="attackResult" style="display:none">
-            <div class="generated-box">
-                <div class="generated-box">
+ 
                     <div class="attack-result-header">
                         <i class="fa-solid fa-terminal"></i>
                         <label><b>Simulation Results</b></label>
@@ -248,8 +255,6 @@
                         <span class="attack-span-label">Risk Level</span>
                         <span class="attack-span-value" id="resRisk">-</span>
                     </div>
-                </div>
-            </div>
         </div>
     </div>
 </section>
