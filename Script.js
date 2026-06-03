@@ -35,6 +35,7 @@ const attackValue = {
 };
 
 let selectedAttack = 'brute';
+let logCount = 0;
 
 slider.addEventListener("input", () => {
 
@@ -169,6 +170,66 @@ toggleBreach.addEventListener('click', () => {
     breachText.removeAttribute('hidden');
     // breachText.classList.toggle('hidden');
 });
+
+function addAttackLog(password, attack, crackTime, isCrackable) {
+    logCount++;
+
+    const emptyEl = document.getElementById('logEmpty');
+    if (emptyEl) emptyEl.style.display = 'none';
+
+    document.getElementById('logCount').textContent =
+        logCount + ' simulation' + (logCount !== 1 ? 's' : '') + ' logged';
+
+    const masked = password.slice(0, 2) + '*'.repeat(Math.max(password.length - 2, 3));
+
+    const now = new Date();
+    const time = now.toLocaleTimeString() + ' · ' + now.toLocaleDateString();
+
+    const entry = document.createElement('div');
+    entry.className = 'log-entry ' + (isCrackable ? 'cracked' : 'safe');
+
+    entry.innerHTML = `
+        <div class="log-entry-header">
+            <div class="log-entry-title">
+                <i class="fa-solid ${isCrackable ? 'fa-circle-exclamation' : 'fa-shield-halved'}"></i>
+                Log #${logCount} — "${masked}" · ${isCrackable ? 'Cracked' : 'Resisted'}
+            </div>
+            <span class="log-entry-time">${time}</span>
+        </div>
+        <div class="log-entry-stats">
+            <div class="log-stat">
+                <span class="log-stat-label">Attack Type</span>
+                <span class="log-stat-value">${attack.name}</span>
+            </div>
+            <div class="log-stat">
+                <span class="log-stat-label">Speed</span>
+                <span class="log-stat-value">${attack.speed}</span>
+            </div>
+            <div class="log-stat">
+                <span class="log-stat-label">Crack Time</span>
+                <span class="log-stat-value">${crackTime.label}</span>
+            </div>
+            <div class="log-stat">
+                <span class="log-stat-label">Risk Level</span>
+                <span class="log-stat-value ${crackTime.riskClass}">${crackTime.risk}</span>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('logList').prepend(entry);
+}
+
+function clearLogs() {
+    logCount = 0;
+    document.getElementById('logCount').textContent = '0 simulations logged';
+    document.getElementById('logList').innerHTML = `
+        <div class="log-empty" id="logEmpty">
+            <i class="fa-solid fa-shield-halved"></i>
+            <p>No simulations run yet.</p>
+            <p>Run an attack simulation to see logs here.</p>
+        </div>
+    `;
+}
 function showAttack(type, clicked) {
     selectedAttack = type;
 
@@ -192,14 +253,14 @@ function estimateCrackTime(password, ratePerSec) {
 
     const seconds = Math.pow(charset, password.length) / ratePerSec;
 
-    if (seconds < 1) return { label: 'Instantly', risk: 'Critical', riskClass: 'risk-high' };
-    if (seconds < 60) return { label: Math.round(seconds) + ' seconds', risk: 'Critical', riskClass: 'risk-high' };
-    if (seconds < 3600) return { label: Math.round(seconds / 60) + ' minutes', risk: 'High', riskClass: 'risk-high' };
-    if (seconds < 86400) return { label: Math.round(seconds / 3600) + ' hours', risk: 'High', riskClass: 'risk-high' };
-    if (seconds < 2592000) return { label: Math.round(seconds / 86400) + ' days', risk: 'Medium', riskClass: 'risk-medium' };
-    if (seconds < 31536000) return { label: Math.round(seconds / 2592000) + ' months', risk: 'Medium', riskClass: 'risk-medium' };
-    if (seconds < 3.15e9) return { label: Math.round(seconds / 31536000) + ' years', risk: 'Low', riskClass: 'risk-low' };
-    return { label: 'Centuries+', risk: 'Very Low', riskClass: 'risk-low' };
+    if (seconds < 1) return { label: 'Instantly', risk: 'Critical', riskClass: 'risk-high', seconds };
+    if (seconds < 60) return { label: Math.round(seconds) + ' seconds', risk: 'Critical', riskClass: 'risk-high', seconds };
+    if (seconds < 3600) return { label: Math.round(seconds / 60) + ' minutes', risk: 'High', riskClass: 'risk-high', seconds };
+    if (seconds < 86400) return { label: Math.round(seconds / 3600) + ' hours', risk: 'High', riskClass: 'risk-high', seconds };
+    if (seconds < 2592000) return { label: Math.round(seconds / 86400) + ' days', risk: 'Medium', riskClass: 'risk-medium', seconds };
+    if (seconds < 31536000) return { label: Math.round(seconds / 2592000) + ' months', risk: 'Medium', riskClass: 'risk-medium', seconds };
+    if (seconds < 3.15e9) return { label: Math.round(seconds / 31536000) + ' years', risk: 'Low', riskClass: 'risk-low', seconds };
+    return { label: 'Centuries+', risk: 'Very Low', riskClass: 'risk-low', seconds };
 }
 
 function runAttackSim() {
@@ -213,15 +274,49 @@ function runAttackSim() {
     const attack = attackValue[selectedAttack];
     const crackTime = estimateCrackTime(password, attack.ratePerSec);
 
-    document.getElementById('resType').textContent = attack.name;
-    document.getElementById('resSpeed').textContent = attack.speed;
-    document.getElementById('resCrackTime').textContent = crackTime.label;
+    const isCrackable = crackTime.seconds < 3.15e9; 
 
-    const riskEl = document.getElementById('resRisk');
-    riskEl.textContent = crackTime.risk;
-    riskEl.className = 'attack-stat-value ' + crackTime.riskClass;
+    const attempts = Math.min(crackTime.seconds * attack.ratePerSec, 9.99e15);
+
+    let attemptsLabel;
+    if (attempts >= 1e12) attemptsLabel = (attempts / 1e12).toFixed(1) + ' trillion';
+    else if (attempts >= 1e9) attemptsLabel = (attempts / 1e9).toFixed(1) + 'B';
+    else if (attempts >= 1e6) attemptsLabel = (attempts / 1e6).toFixed(1) + 'M';
+    else attemptsLabel = Math.round(attempts).toLocaleString();
+
+    document.getElementById('resAttempts').textContent = attemptsLabel;
+    document.getElementById('resTime').textContent = crackTime.label;
+
+    const bar = document.getElementById('resProgressBar');
+    const pct = document.getElementById('resPercent');
+    bar.style.width = '0%';
+    pct.textContent = '0%';
+    setTimeout(() => {
+        const fill = isCrackable ? 100 : 8;
+        bar.style.width = fill + '%';
+        pct.textContent = fill + '%';
+    }, 100);
+
+    const banner = document.getElementById('resBanner');
+    const icon = document.getElementById('resBannerIcon');
+    const title = document.getElementById('resBannerTitle');
+    const msg = document.getElementById('resBannerMsg');
+
+    if (isCrackable) {
+        banner.className = 'sim-banner cracked';
+        icon.className = 'fa-solid fa-circle-exclamation';
+        title.textContent = 'Password Cracked!';
+        msg.textContent = `This password is vulnerable to ${attack.name} attacks. Consider using a longer password with more character variety.`;
+    } else {
+        banner.className = 'sim-banner safe';
+        icon.className = 'fa-solid fa-shield-halved';
+        title.textContent = 'Password Resisted!';
+        msg.textContent = `This password would take ${crackTime.label} to crack using ${attack.name}. Great job!`;
+    }
 
     document.getElementById('attackResult').style.display = 'block';
+
+    addAttackLog(password, attack, crackTime, isCrackable);
 }
 
 window.addEventListener('load', () => {
